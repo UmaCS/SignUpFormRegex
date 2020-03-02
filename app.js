@@ -10,16 +10,26 @@ const emailInput = document.getElementById("email");
  */
 
 // Can only contain letters a-z in lowercase
-function isValidUsername(username) {}
+function isValidUsername(username) {
+  return /^[a-z]+$/.test(username);
+}
 
 // Must contain a lowercase, uppercase letter and a number
-function isValidPassword(password) {}
+function isValidPassword(password) {
+  return /[a-z]/.test(password) &&
+        /[A-Z]/.test(password) &&
+        /[0-9]/.test(password);
+}
 
 // The telephone number must be in the format of (555) 555-5555
-function isValidTelephone(telephone) {}
+function isValidTelephone(telephone) {
+  return /^\D*\d{3}\D*\d{3}\D*\d{4}\D*$/.test(telephone);
+}
 
 // Must be a valid email address
-function isValidEmail(email) {}
+function isValidEmail(email) {
+  return /^[^@]+@[^@.]+\.[a-z]+$/.test(email);
+}
 
 /**
  *
@@ -27,7 +37,10 @@ function isValidEmail(email) {}
  *
  */
 
-function formatTelephone(text) {}
+function formatTelephone(text) {
+  const regex = /^\D*(\d{3})\D*(\d{3})\D*(\d{4})\D*$/;
+  return text.replace(regex,'($1) $2-$3');
+}
 
 /**
  *
@@ -59,5 +72,9 @@ usernameInput.addEventListener("input", createListener(isValidUsername));
 passwordInput.addEventListener("input", createListener(isValidPassword));
 
 telephoneInput.addEventListener("input", createListener(isValidTelephone));
+telephoneInput.addEventListener("blur", e => {
+  e.target.value = formatTelephone(e.target.value);
+});
+
 
 emailInput.addEventListener("input", createListener(isValidEmail));
